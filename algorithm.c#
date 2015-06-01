@@ -1,0 +1,175 @@
+//+------------------------------------------------------------------+
+//|                                         SmithinWinterSted3.0.mq4 |
+//|                              Copyright 2015, McBride algorithms. |
+//|                                             https://www.mql5.com |
+//+------------------------------------------------------------------+
+#property copyright "Copyright 2015, McBride algorithms."
+#property link      "https://www.mql5.com"
+#property version   "1.00"
+#property strict
+
+extern double dLots             = 0.1;
+extern int    iTakeProfit       = 200;
+extern int    iTrailingStop     = 35;
+extern int    iStopLoss         = 30;
+extern int    iMagicNumber      = 12444;
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+  {
+//---
+   
+//---
+   return(INIT_SUCCEEDED);
+  }
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+  {
+//---
+   
+  }
+//+------------------------------------------------------------------+
+//| Expert start function                                            |
+//+------------------------------------------------------------------+
+int start()
+  {
+//----
+   int iTotalOrders, iCrossed;
+   
+   // see if we have a new cross
+   iCrossed  = CheckForCross();
+   
+   // get total number of orders 
+   iTotalOrders = OrdersTotal();
+   
+   // do functions 
+   if(iTotalOrders == 0) PlaceOrder(iCrossed);
+   if(iTotalOrders != 0) TrailingStop(iTotalOrders);
+   
+//----
+   return(0);
+  }
+//+------------------------------------------------------------------+
+
+void PlaceOrder(int iSignal)
+  {
+  
+   int iTicket;
+   
+   if(iSignal==1)
+     {
+      iTicket=OrderSend(Symbol(),OP_BUY,dLots,Ask,3,Bid-iStopLoss*Point,Ask+iTakeProfit*Point,"My First EA",iMagicNumber,0,Green);
+      if(iTicket>0){
+         if(OrderSelect (iTicket,SELECT_BY_TICKET,MODE_TRADES))
+         Print("BUY order opened : ",OrderOpenPrice());
+         }else{
+           Print("Error opening BUY order : ",GetLastError());
+           }
+       }
+       
+       if(iSignal == 2)
+       {
+          iTicket=OrderSend(Symbol(),OP_SELL,dLots,Bid,3,Ask+iStopLoss*Point,Bid-iTakeProfit*Point,"My First EA",iMagicNumber,0,Red);
+       if(iTicket>0){
+           if(OrderSelect(iTicket,SELECT_BY_TICKET,MODE_TRADES))
+           Print("SELL order opened : ",OrderOpenPrice());
+           }else{
+              Print("Error opening SELL order : ",GetLastError());   
+              }
+          }
+          
+       }
+ //+---------------------------------------------------+
+ //|                                                   |
+ //+---------------------------------------------------+
+int TrailingStop(int iTotal)
+  {
+  
+   int iCount;
+   bool bRetVal;
+   
+   if(iTrailingStop<1)return(-1); // error
+   
+   for(iCount=0;iCount<iTotal;iCount++)
+     {
+     
+     if(OrderSelect(iCount,SELECT_BY_POS,MODE_TRADES)==true)
+       {
+        if(OrderSymbol()==Symbol() && OrderMagicNumber()==iMagicNumber)
+           switch(OrderType())
+             {
+              case OP_BUY:
+                 if(Bid-OrderOpenPrice()>Point*iTrailingStop)
+                   {
+                     if(OrderStopLoss()<Bid-Point*iTrailingStop)
+                       {
+                       bRetVal=OrderModify(OrderTicket(),OrderOpenPrice(),Bid-Point*iTrailingStop,OrderTakeProfit(),0,Green); 
+                       
+                       
+                       // Check fo error
+                       if(!bRetVal)
+                         {
+                         Print("Error in OrderModify. Error code=",GetLastError());
+                           }else{
+                         Print("Order modified successfully.");
+                         }
+                      }
+                   }
+                   break;
+                 case OP_SELL:
+                    if((OrderOpenPrice()-Ask)>(Point*iTrailingStop))
+                      {
+                        if((OrderStopLoss()>(Ask+Point*iTrailingStop)) || (OrderStopLoss()==0))
+                          {
+                           bRetVal=OrderModify(OrderTicket(),OrderOpenPrice(),Ask+Point*iTrailingStop,OrderTakeProfit(),0,Red);
+                           
+                           // Check for error
+                           if(!bRetVal)
+                             {
+                             Print("Error in OrderModify. Error Code=",GetLastError());
+                              }else{
+                             Print("Order modified successfully. ");
+                             }
+                           }
+                        }
+                      break;                     
+                 }
+               }
+             }
+             
+             return(0);
+             }
+//+----------------------------------------------------------------+
+//|                                                                |
+//+----------------------------------------------------------------+
+int CheckForCross()
+  {
+// check if moving averages have crossed
+   static int siLastDirection=0;
+   static int siCurrentDirection=0;
+   double dShortEma,dLongEma;
+   
+// get the current prices for each moving average
+   dShortEma= iMA(NULL,0,8,0,MODE_EMA,PRICE_CLOSE,0);
+   dLongEma = iMA(NULL,0,13,0,MODE_EMA,PRICE_CLOSE,0);
+   
+// Check if lines have crossed
+   if(dShortEma > dLongEma) siCurrentDirection = 1; // up
+   if(dShortEma < dLongEma) siCurrentDirection = 2; // down
+   
+   if(siCurrentDirection!=siLastDirection)
+      {
+      // they have so return the new signal
+      siLastDirection=siCurrentDirection;
+      return (siLastDirection);
+      }
+      
+// no cross
+   return(0);
+   }     
+//+-------------------------------------------------------------+
+//|                                                             |
+//+-------------------------------------------------------------+    
