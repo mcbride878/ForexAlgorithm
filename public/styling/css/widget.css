@@ -1,0 +1,154 @@
+
+
+img {
+	width: 60%;
+/*	margin-left: 20%;*/
+}
+.sliderDemoBasicUsage input[type="number"] {
+	text-align: center;
+}
+.switchdemoBasicUsage .inset {
+	padding-left: 25px;
+	padding-top: 25px;
+}
+/*.headerGraph {
+	margin-left: 2%;
+}*/
+
+body{
+	text-align: center;
+}
+.chart {
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	margin: 60px auto;
+	position: relative;
+}
+.y {
+	position: absolute;
+	transform: rotate(-90deg);
+	transform-origin: bottom left;
+	bottom: 0;
+	padding: 5px;
+}
+.x {
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	padding: 5px;
+}
+svg {
+	position: absolute;
+	trasform: rotateX(180deg);
+	left: 0;
+}
+line {
+	stroke: red;
+	stroke-width: 3px;
+}
+.algorithm {
+	height: 50%;
+	width: 70%;
+	border: 3px solid;
+	font-weight: 30;
+	overflow: auto;
+	margin-left: 15%;
+	text-align: left;
+	background-color: silver;
+}
+h1 {
+	margin-right: 300px;
+}
+.parallax-window {
+	min-height: 600px;
+	background: transparent;
+}
+.second {
+	background-image: url("http://wallvast.com/wp-content/uploads/2015/01/nature_landscape_sunset_full_hd_wallpaper_1080p.jpg")
+}
+h3 {
+	margin-top: 100px;
+}
+/** {
+  outline: solid red 1px;
+}
+*/
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+
+.gridStyle {
+   /* background-image: url("http://cdn2.business2community.com/wp-content/uploads/2013/03/WallStreetSignGeneric20120305.jpg");*/
+    border: 1px solid rgb(212,212,212);
+    width: 100%; 
+    height: 400px;
+    min-height: 100%;
+}
+/*++++++++++++*/
+.ngTopPanel {
+  line-height: 35px;
+}
+
+.ngCell  {
+  display : table-column;
+  height: auto !important;
+  overflow:visible;
+  position: static;
+}
+
+.ngRow {
+  display : table-row;
+  height: auto !important;
+  position: static;
+}
+
+.ngCellText{
+  height: auto !important;
+  white-space: normal;
+  overflow:visible;
+}
+/*+++++++++++++*/
+.ngGrid.unselectable {
+  margin-top: 46px;
+}
+.ngViewport {
+  max-height: 100%;
+}
+.firstInput {
+margin-left: 5px;
+}
+.container {
+  width: 100%;
+  margin: 0px;
+
+
+}
+.container2{
+	margin-top: 150px;
+}
+.container3{
+	margin-top: 125px;
+}
+.parallax-window {
+  min-height: 75%;
+  background: transparent;
+}
+.parallax-window2 {
+    min-height: 100%;
+  background: transparent;
+}
+.graphShiz {
+  width: 100%;
+  height: 100%;
+}
+.btn-primary{
+	margin-top: 40px;
+}
+.rater{
+	padding-top: 125px;
+}
+input{
+	font-color: black;
+}

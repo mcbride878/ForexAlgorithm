@@ -1,0 +1,47 @@
+<div>
+	<div class="pull-right">
+		<button ng-disabled="skip_reviews == 0" class="btn btn-success" ng-click="prevPage()">Prev Page</button>
+		<button ng-disabled="reviews.length < limit" class="btn btn-success" ng-click="nextPage()">Next Page</button>
+	</div>
+	<div ng-repeat="review in reviews | orderBy:'Review'">
+		<h3>{{review.profit}}</h3>
+		<div class="row">
+			<div class="col-sm-6"><strong>Loss:</strong></div>
+			<div class="col-sm-6">{{review.Loss}}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6"><strong>Time:</strong></div>
+			<div class="col-sm-6">{{review.time}}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6"><strong>Advice:</strong></div>
+			<div class="col-sm-6">{{review.advice}}</div>
+		</div>
+	</div>
+	<div>
+		<h3>Help me better my algorithm</h3>
+		<div class="row">
+			<div class="col-sm-4"><strong>Profit:</strong></div>
+			<div class="col-sm-6"><input type="text"ng-model="newReview.profit" /></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4"><strong>Loss:</strong></div>
+			<div class="col-sm-6"><input type="text" ng-model="newReview.Loss" /></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4"><strong>Time:</strong></div>
+			<div class="col-sm-6"><input type="text" ng-model="newReview.time" /></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4"><strong>Advice:</strong></div>
+			<div class="col-sm-6"><input type="text" ng-model="newReview.advice" /></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4"><strong>Overall:</strong></div>
+			<div class="col-sm-6"><input type="radio" ng-model="newReview.overall" />AWESOME
+								  <br/>
+								  <input type="radio" ng-model="newReview.overall" />NOT awesome</div>
+		</div>
+		<button class="btn btn-primary" ng-click="clickAdd()">Add your review</button>
+	</div>
+</div>
